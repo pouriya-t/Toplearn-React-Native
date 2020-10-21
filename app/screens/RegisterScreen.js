@@ -2,9 +2,12 @@ import React from "react";
 import { View, StyleSheet, Image } from "react-native";
 import * as Yup from "yup";
 import Constants from "expo-constants";
-import CustomButton from "../components/CustomButton";
-import ToplearnFormField from "../components/forms/ToplearnFormField";
-import ToplearnForm from "../components/forms/ToplearnForm";
+import {
+  ToplearnForm,
+  ToplearnFormField,
+  SubmitButton,
+} from "../components/forms";
+import Screen from "../components/shared/Screen";
 
 const validationSchema = Yup.object().shape({
   fullname: Yup.string().required("نام و نام خانوادگی الزامی است"),
@@ -21,7 +24,7 @@ const validationSchema = Yup.object().shape({
 
 const RegisterScreen = () => {
   return (
-    <View style={styles.container}>
+    <Screen style={styles.container}>
       <Image style={styles.logo} source={require("../assets/logo.png")} />
       <ToplearnForm
         initialValues={{
@@ -68,10 +71,10 @@ const RegisterScreen = () => {
           secureTextEntry
         />
         <View style={{ width: "60%" }}>
-          <CustomButton title="ثبت نام" onPress={() => {}} />
+          <SubmitButton title="ثبت نام" />
         </View>
       </ToplearnForm>
-    </View>
+    </Screen>
   );
 };
 
@@ -79,8 +82,6 @@ export default RegisterScreen;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    marginTop: Constants.statusBarHeight,
     alignItems: "center",
   },
   logo: {

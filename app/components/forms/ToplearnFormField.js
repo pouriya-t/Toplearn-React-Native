@@ -1,7 +1,7 @@
 import React from "react";
 import { useFormikContext } from "formik";
-import ToplearnTextInput from "../ToplearnTextInput";
-import ErrorMessage from "../ErrorMessage";
+import ToplearnTextInput from "../shared/ToplearnTextInput";
+import ErrorMessage from "./ErrorMessage";
 
 const ToplearnFormField = ({ name, ...otherProps }) => {
   const { handleChange, setFieldTouched, errors, touched } = useFormikContext();
