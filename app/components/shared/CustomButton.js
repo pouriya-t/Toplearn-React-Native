@@ -1,10 +1,16 @@
 import React from "react";
-import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
+import ToplearnText from "./ToplearnText";
 
 const CustomButton = ({ title, onPress, color = "tomato" }) => {
   return (
-    <TouchableOpacity style={[styles.button,{backgroundColor:color}]} onPress={onPress}>
-      <Text style={styles.text}>{title}</Text>
+    <TouchableOpacity
+      style={[styles.button, { backgroundColor: color }]}
+      onPress={onPress}
+    >
+      <ToplearnText fontFamily="ih" size="2" styles={styles.text}>
+        {title}
+      </ToplearnText>
     </TouchableOpacity>
   );
 };
@@ -23,7 +29,5 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "white",
-    fontFamily: "ih",
-    fontSize: 18,
   },
 });

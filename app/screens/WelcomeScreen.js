@@ -1,13 +1,13 @@
 import React from "react";
 import {
   View,
-  Text,
   Button,
   StyleSheet,
   Image,
   ImageBackground,
 } from "react-native";
 import CustomButton from "../components/shared/CustomButton";
+import ToplearnText from "../components/shared/ToplearnText";
 
 const WelcomeScreen = ({ navigation }) => {
   return (
@@ -18,9 +18,9 @@ const WelcomeScreen = ({ navigation }) => {
     >
       <View style={styles.logoContainer}>
         <Image source={require("../assets/logo.png")} style={styles.logo} />
-        <Text style={styles.firstText}>
+        <ToplearnText fontFamily="ih" size="2" styles={styles.firstText}>
           خود آموزی ، کسب تجربه ، ورود به بازار کار
-        </Text>
+        </ToplearnText>
       </View>
       <View style={styles.buttonContainer}>
         <CustomButton
@@ -50,8 +50,6 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   firstText: {
-    fontFamily: "ih",
-    fontSize: 25,
     top: 25,
     color: "tomato",
   },

@@ -38,7 +38,7 @@ const courses = [
   },
 ];
 
-const CoursesScreen = () => {
+const NewCoursesScreen = () => {
   return (
     <Screen style={styles.container}>
       <FlatList
@@ -58,7 +58,7 @@ const CoursesScreen = () => {
   );
 };
 
-export default CoursesScreen;
+export default NewCoursesScreen;
 
 const styles = StyleSheet.create({
   container: {
