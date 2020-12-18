@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   TouchableHighlight,
 } from "react-native";
-import Icon from "../components/shared/icon";
+// import Icon from "../components/shared/icon";
 import ItemSeperator from "../components/shared/ItemSeperator";
 import Screen from "./../components/shared/Screen";
 
@@ -24,13 +24,13 @@ const AccountScreen = () => {
           onPress={() => {}}
           style={{ alignSelf: "center", marginLeft: 20 }}
         >
-          <Icon name="settings" backgroundColor="tomato" />
+          {/* <Icon name="settings" backgroundColor="tomato" /> */}
         </TouchableOpacity>
       </View>
       <ItemSeperator height={5} />
       <TouchableHighlight underlayColor="#f8f4f4" onPress={() => {}}>
           <View style={styles.container}>
-            <Icon name="logout" backgroundColor="tomato" />
+            {/* <Icon name="logout" backgroundColor="tomato" /> */}
             <View style={styles.details}>
               <Text style={styles.title}>خروج از حساب کاربری</Text>
             </View>

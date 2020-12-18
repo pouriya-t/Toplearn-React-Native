@@ -1,57 +1,44 @@
-import React from "react";
-import { StyleSheet, FlatList, View, Image, Text } from "react-native";
+import React, { useContext } from "react";
+import {
+  TouchableOpacity,
+  StyleSheet,
+  FlatList,
+  ActivityIndicator,
+} from "react-native";
 import Screen from "./../components/shared/Screen";
 import Card from "../components/shared/Card";
+import TopLearnContext from "../context/TopLearnContext";
 
-const courses = [
-  {
-    id: 1,
-    title: "دوره جامع NodeJs",
-    price: "300000",
-    time: "15:00:00",
-    teacher: "یونس قربانی",
-    image: require("../assets/courses/NodeJs.jpg"),
-  },
-  {
-    id: 2,
-    title: "دوره جامع ReactJs",
-    price: "200000",
-    time: "15:00:00",
-    teacher: "یونس قربانی",
-    image: require("../assets/courses/ReactJs.jpg"),
-  },
-  {
-    id: 3,
-    title: "دوره جامع ElectronJs",
-    price: "200000",
-    time: "15:00:00",
-    teacher: "یونس قربانی",
-    image: require("../assets/courses/Electron.jpg"),
-  },
-  {
-    id: 4,
-    title: "دوره جامع React Native",
-    price: "200000",
-    teacher: "یونس قربانی",
-    time: "15:00:00",
-    image: require("../assets/courses/ReactNative.jpg"),
-  },
-];
+const CoursesScreen = ({ navigation }) => {
+  const context = useContext(TopLearnContext);
 
-const CoursesScreen = () => {
   return (
     <Screen style={styles.container}>
+      {context.loading && (
+        <ActivityIndicator
+          size="large"
+          color="tomato"
+          animating={context.loading}
+        />
+      )}
       <FlatList
-        data={courses}
-        keyExtractor={(course) => course.id.toString()}
+        data={context.courses}
+        keyExtractor={(course) => course._id.toString()}
         renderItem={({ item }) => (
-          <Card
-            title={item.title}
-            time={item.time}
-            price={item.price}
-            image={item.image}
-            teacher={item.teacher}
-          />
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("CourseDetails", { course: item })
+            }
+          >
+            <Card
+              title={item.title}
+              time="15:00"
+              price={item.price}
+              image={item.imageUrl}
+              teacher="یونس قربانی"
+              info={item.info}
+            />
+          </TouchableOpacity>
         )}
       />
     </Screen>

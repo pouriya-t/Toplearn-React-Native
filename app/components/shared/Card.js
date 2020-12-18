@@ -1,25 +1,52 @@
 import React from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
+import ToplearnText from "./ToplearnText";
+import { View, StyleSheet, Image, ScrollView, FlatList } from "react-native";
 import { numberWithCommas } from "../../utils/price";
 
-const a = "../../assets/courses/ES.jpg";
-
-const Card = ({ title, price, teacher, time, image }) => {
+const Card = ({ title, price, teacher, time, image, courseInfo = null }) => {
   return (
     <View style={styles.card}>
-      <Image source={image} style={styles.courseImage} />
+      <Image
+        resizeMode="contain"
+        source={{
+          uri: `https://rnapi.ghorbany.dev/${image}`,
+        }}
+        style={styles.courseImage}
+      />
       <View style={{ padding: 20 }}>
-        <Text style={styles.title}>{title}</Text>
+        <ToplearnText fontFamily="yekan" size="2" styles={styles.title}>
+          {title}
+        </ToplearnText>
         <View style={styles.courseDetails}>
-          <Text style={styles.price}>
-              {`قیمت دوره : ${numberWithCommas(price)} تومان`}
-          </Text>
-          <Text sytle={styles.item}>زمان دوره : {time}</Text>
+          <ToplearnText fontFamily="yekan" size="1.5">
+            {`قیمت دوره : ${numberWithCommas(price)} تومان`}
+          </ToplearnText>
+          <ToplearnText fontFamily="yekan" size="1.5">
+            زمان دوره : {time}
+          </ToplearnText>
         </View>
         <View style={styles.userContainer}>
-          <Text style={styles.teacher}>مدرس دوره : {teacher}</Text>
+          <ToplearnText fontFamily="ih" size="1.5" styles={styles.teacher}>
+            مدرس دوره : {teacher}
+          </ToplearnText>
         </View>
       </View>
+      {courseInfo ? (
+        <View style={{ flex: 1 }}>
+          <ToplearnText fontFamily="yekan" size="2.5">
+            توضیحات دوره :
+          </ToplearnText>
+          <ScrollView>
+            <ToplearnText
+              fontFamily="ih"
+              size="1.7"
+              styles={styles.courseInformation}
+            >
+              {courseInfo}
+            </ToplearnText>
+          </ScrollView>
+        </View>
+      ) : null}
     </View>
   );
 };
@@ -28,10 +55,10 @@ export default Card;
 
 const styles = StyleSheet.create({
   card: {
+    flex: 1,
     borderRadius: 15,
     backgroundColor: "white",
     marginBottom: 20,
-    overflow: "hidden",
   },
   courseImage: {
     width: "100%",
@@ -41,24 +68,27 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
   },
+  container: {
+    flexDirection: "row",
+    marginVertical: 20,
+    padding: 15,
+  },
+  courseInformation: {
+    textAlign: "justify",
+    marginVertical: 10,
+    lineHeight: 25,
+  },
+  screen: {
+    backgroundColor: "#f8f4f4",
+  },
   userContainer: {
     marginVertical: 10,
   },
   title: {
     marginBottom: 7,
-    fontFamily: "yekan",
-    fontSize: 20,
     alignSelf: "center",
   },
-  time: {
-    fontFamily: "yekan",
-  },
-  price: {
-    fontFamily: "yekan",
-  },
   teacher: {
-    fontFamily: "ih",
-    fontSize: 15,
     alignSelf: "center",
   },
 });

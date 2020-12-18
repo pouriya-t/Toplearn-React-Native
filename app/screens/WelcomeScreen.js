@@ -1,15 +1,40 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   View,
-  Button,
+  Alert,
   StyleSheet,
   Image,
   ImageBackground,
+  BackHandler,
 } from "react-native";
+import NetInfo from "@react-native-community/netinfo";
 import CustomButton from "../components/shared/CustomButton";
 import ToplearnText from "../components/shared/ToplearnText";
 
+const confirmationAlert = () => {
+  return Alert.alert(
+    "ارتباط با سرور",
+    "برای استفاده از اپلیکیشن باید به اینترنت متصل باشید"[
+      {
+        text: "باشه",
+        onPress: BackHandler.exitApp,
+      }
+    ],
+    { cancelable: false }
+  );
+};
+
 const WelcomeScreen = ({ navigation }) => {
+  useEffect(() => {
+    const checkForNet = async () => {
+      const state = await NetInfo.fetch();
+      // console.log("Connection Type:", state.type);
+      // console.log("Is Connected:", state.isConnected);
+      if (!state.isConnected) confirmationAlert();
+    };
+    checkForNet();
+  }, []);
+
   return (
     <ImageBackground
       source={require("../assets/bg1.jpg")}
