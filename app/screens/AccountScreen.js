@@ -7,34 +7,46 @@ import {
   TouchableOpacity,
   TouchableHighlight,
 } from "react-native";
-// import Icon from "../components/shared/icon";
+import { StackActions } from "@react-navigation/native";
+import { useSelector } from "react-redux";
+import Icon from "../components/shared/Icon";
 import ItemSeperator from "../components/shared/ItemSeperator";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import Screen from "./../components/shared/Screen";
+import ToplearnText from "../components/shared/ToplearnText";
 
-const AccountScreen = () => {
+const AccountScreen = ({ navigation }) => {
+  const user = useSelector((state) => state.user);
+  const handleLogout = async () => {
+    await AsyncStorage.removeItem("token");
+    await AsyncStorage.removeItem("userId");
+    navigation.dispatch(StackActions.replace("Welcome"));
+  };
   return (
     <Screen style={styles.screen}>
       <View style={styles.container}>
         <Image style={styles.image} source={require("../assets/logo.png")} />
         <View style={styles.details}>
-          <Text style={styles.title}>یونس قربانی</Text>
-          <Text style={styles.subTitle}>younes.gh@gmail.com</Text>
+          <Text style={styles.title}>{user.fullname}</Text>
+          <Text style={styles.subTitle}>{user.email}</Text>
         </View>
         <TouchableOpacity
           onPress={() => {}}
           style={{ alignSelf: "center", marginLeft: 20 }}
         >
-          {/* <Icon name="settings" backgroundColor="tomato" /> */}
+          <Icon name="settings" backgroundColor="tomato" />
         </TouchableOpacity>
       </View>
       <ItemSeperator height={5} />
-      <TouchableHighlight underlayColor="#f8f4f4" onPress={() => {}}>
-          <View style={styles.container}>
-            {/* <Icon name="logout" backgroundColor="tomato" /> */}
-            <View style={styles.details}>
-              <Text style={styles.title}>خروج از حساب کاربری</Text>
-            </View>
+      <TouchableHighlight underlayColor="#f8f4f4" onPress={handleLogout}>
+        <View style={styles.container}>
+          <Icon name="logout" backgroundColor="tomato" />
+          <View style={styles.details}>
+            <ToplearnText fontFamily="ih" size="2">
+              خروج از حساب کاربری
+            </ToplearnText>
           </View>
+        </View>
       </TouchableHighlight>
     </Screen>
   );

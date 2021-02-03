@@ -1,28 +1,27 @@
-import React, { useContext } from "react";
-import {
-  TouchableOpacity,
-  StyleSheet,
-  FlatList,
-  ActivityIndicator,
-} from "react-native";
+import React, { useContext, useEffect } from "react";
+import { TouchableOpacity, StyleSheet, FlatList } from "react-native";
 import Screen from "./../components/shared/Screen";
 import Card from "../components/shared/Card";
+import { useSelector } from "react-redux";
 import TopLearnContext from "../context/TopLearnContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { decodeToken } from "../utils/token";
 
 const CoursesScreen = ({ navigation }) => {
-  const context = useContext(TopLearnContext);
+  const courses = useSelector((state) => state.courses);
+
+  useEffect(() => {
+    const myFunc = async () => {
+      const token = await AsyncStorage.getItem("token");
+      // console.log(decodeToken(token));
+    };
+    myFunc();
+  }, []);
 
   return (
     <Screen style={styles.container}>
-      {context.loading && (
-        <ActivityIndicator
-          size="large"
-          color="tomato"
-          animating={context.loading}
-        />
-      )}
       <FlatList
-        data={context.courses}
+        data={courses}
         keyExtractor={(course) => course._id.toString()}
         renderItem={({ item }) => (
           <TouchableOpacity

@@ -9,7 +9,13 @@ import {
 } from "react-native";
 import NetInfo from "@react-native-community/netinfo";
 import CustomButton from "../components/shared/CustomButton";
+import { StackActions, useNavigationState } from "@react-navigation/native";
 import ToplearnText from "../components/shared/ToplearnText";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useDispatch } from "react-redux";
+import { userAction } from "../actions";
+import { decodeToken } from "../utils/token";
+import { customToast } from "../utils/toasts";
 
 const confirmationAlert = () => {
   return Alert.alert(
@@ -25,12 +31,52 @@ const confirmationAlert = () => {
 };
 
 const WelcomeScreen = ({ navigation }) => {
+  const screenIndex = useNavigationState((state) => state.index);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    let currentCount = 0;
+
+    if (screenIndex <= 0) {
+      BackHandler.addEventListener("hardwareBackPress", () => {
+        if (currentCount === 1) {
+          BackHandler.exitApp();
+          return true;
+        }
+        currentCount += 1;
+        customToast("برای خروج دوباره دکمه برگشت را لمس کنید");
+
+        setTimeout(() => {
+          currentCount = 0;
+        }, 1000);
+
+        return true;
+      });
+    }
+  }, []);
+
   useEffect(() => {
     const checkForNet = async () => {
       const state = await NetInfo.fetch();
-      // console.log("Connection Type:", state.type);
-      // console.log("Is Connected:", state.isConnected);
       if (!state.isConnected) confirmationAlert();
+      else {
+        const token = await AsyncStorage.getItem("token");
+        const userId = JSON.parse(await AsyncStorage.getItem("userId"));
+
+        if (token !== null && userId !== null) {
+          const decodedToken = decodeToken(token);
+
+          dispatch(userAction(decodedToken.user));
+
+          if (decodedToken.user.userId === userId) {
+            navigation.dispatch(StackActions.replace("Home"));
+          } else {
+            await AsyncStorage.removeItem("token");
+            await AsyncStorage.removeItem("userId");
+            navigate.navigate("Login");
+          }
+        }
+      }
     };
     checkForNet();
   }, []);

@@ -19,7 +19,8 @@ const Card = ({ title, price, teacher, time, image, courseInfo = null }) => {
         </ToplearnText>
         <View style={styles.courseDetails}>
           <ToplearnText fontFamily="yekan" size="1.5">
-            {`قیمت دوره : ${numberWithCommas(price)} تومان`}
+            قیمت دوره :
+            {price === 0 ? "رایگان" : `: ${numberWithCommas(price)} تومان`}
           </ToplearnText>
           <ToplearnText fontFamily="yekan" size="1.5">
             زمان دوره : {time}

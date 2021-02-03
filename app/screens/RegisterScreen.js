@@ -1,13 +1,15 @@
 import React from "react";
+import Toast from "react-native-tiny-toast";
 import { View, StyleSheet, Image } from "react-native";
 import * as Yup from "yup";
-import Constants from "expo-constants";
 import {
   ToplearnForm,
   ToplearnFormField,
   SubmitButton,
 } from "../components/forms";
 import Screen from "../components/shared/Screen";
+import { registerUser } from "../api/users";
+import { customToast, loadingToast } from "../utils/toasts";
 
 const validationSchema = Yup.object().shape({
   fullname: Yup.string().required("نام و نام خانوادگی الزامی است"),
@@ -22,7 +24,27 @@ const validationSchema = Yup.object().shape({
     .oneOf([Yup.ref("password"), null], "کلمه های عبور باید یکسان باشند"),
 });
 
-const RegisterScreen = () => {
+const RegisterScreen = ({ navigation }) => {
+  const handleUserRegistration = async (user) => {
+    try {
+      loadingToast("ثبت نام کاربر ...");
+      const status = await registerUser(user);
+
+      if (status === 201) {
+        //navigation
+        Toast.hide();
+        navigation.navigate("Login", { successRegister: true });
+      } else {
+        // show error
+        Toast.hide();
+        customToast("خطایی رخ داده");
+        console.log("Server error");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <Screen style={styles.container}>
       <Image style={styles.logo} source={require("../assets/logo.png")} />
@@ -33,7 +55,10 @@ const RegisterScreen = () => {
           password: "",
           passwordConfirmation: "",
         }}
-        onSubmit={(values) => console.log(values)}
+        onSubmit={(user) => {
+          // console.log(values);
+          handleUserRegistration(user);
+        }}
         validationSchema={validationSchema}
       >
         <ToplearnFormField
